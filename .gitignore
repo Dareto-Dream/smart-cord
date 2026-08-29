@@ -1,0 +1,13 @@
+**/bin/
+**/obj/
+*.user
+
+AGENTS.md
+plan.md
+
+# secrets / local machine config — never commit
+.env
+.env.*
+!.env.example
+**/appsettings.local.json
+**/secrets.dat
