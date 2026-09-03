@@ -1,6 +1,7 @@
 **/bin/
 **/obj/
 *.user
+/dist/
 
 AGENTS.md
 plan.md
