@@ -48,12 +48,10 @@ without it.
 
 Things I know about and haven't gotten around to:
 
-- The sidebar "Connecting to Discord…" status text clips inside its own panel.
-  Cosmetic, annoying, low priority.
-- No installer. When I actually ship this it'll be a zip of the publish output, not an
-  installer with an update feed — this isn't a thing I'm going to be maintaining for
-  other people, so Velopack or whatever felt like a lot of ceremony for a tool that
-  gets built once and left alone.
+- No installer, on purpose. `scripts/release.ps1 -Version x.y.z` publishes
+  self-contained and zips it — that's the whole release process. Not an installer
+  with an update feed, this isn't a thing I'm going to be maintaining for other
+  people.
 - No tests. The resolver logic that picks what to show on the card is the one place
   that'd actually benefit from some, and it doesn't have any.
 - Signal detection is still "is this process running" — no weighting, no combining
