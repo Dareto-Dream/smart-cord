@@ -30,6 +30,14 @@ public sealed class MainForm : Form
     {
         _controller = controller;
 
+        // Per-monitor-v2 scales the whole control tree by (current DPI / 96) instead of
+        // leaving every hardcoded pixel value (sidebar width, button heights, the card...)
+        // correct only at 100% scaling. Without this, a high-DPI or oddly-scaled display
+        // (a 2560x1600 panel is rarely run at plain 96 DPI) renders text that outgrows its
+        // container while everything sized in raw pixels stays put — that's the clipping.
+        AutoScaleMode = AutoScaleMode.Dpi;
+        AutoScaleDimensions = new SizeF(96f, 96f);
+
         Text = "SmartCord";
         BackColor = Theme.Base;
         ForeColor = Theme.TextPrimary;
@@ -135,14 +143,19 @@ public sealed class MainForm : Form
         // Buttons are added top-down, so add in reverse for Dock.Top ordering.
         var navHost = new Panel { Dock = DockStyle.Fill, BackColor = Theme.Base };
 
-        var statusPanel = new Panel { Dock = DockStyle.Bottom, Height = 56, BackColor = Theme.Base, Padding = new Padding(14, 0, 10, 8) };
+        // Dock, not a manually-positioned Point over a Fill sibling -- that combination
+        // (the old code) only lines up by coincidence at one specific DPI/font size and
+        // is exactly the kind of layout that breaks first on an unusual display.
+        var statusPanel = new Panel { Dock = DockStyle.Bottom, Height = 84, BackColor = Theme.Base, Padding = new Padding(14, 6, 10, 8) };
         _statusDot.Text = "●";
-        _statusDot.AutoSize = true;
-        _statusDot.Location = new Point(14, 8);
+        _statusDot.AutoSize = false;
+        _statusDot.Dock = DockStyle.Left;
+        _statusDot.Width = 20;
+        _statusDot.TextAlign = ContentAlignment.TopCenter;
         _statusDot.ForeColor = Theme.TextFaint;
         _statusText.AutoSize = false;
         _statusText.Dock = DockStyle.Fill;
-        _statusText.Padding = new Padding(22, 4, 4, 0);
+        _statusText.Padding = new Padding(4, 0, 4, 0);
         _statusText.TextAlign = ContentAlignment.TopLeft;
         _statusText.Font = new Font("Segoe UI", 8.25f);
         _statusText.ForeColor = Theme.TextMuted;
